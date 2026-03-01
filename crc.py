@@ -9,7 +9,7 @@ def calc_crc(data: bytes | bytearray, generator: GF2x) -> int:
     # Note that $(M(x) * x^n) + (G(x)) = R(x) + (G(x))$ in $(GF(2)[x])/(G(x))$.
 
     # Let $M(x)$ be a sequence of $m$ bytes, recall a byte is defined as 8 bits.
-    # That is, $M(x) = M_0(x) + M_1(x) * x^7 + ... + M_{m-1}(x) * x^{8(m-1) - 1}$,
+    # That is, $M(x) = M_0(x) + M_1(x) * x^7 + \cdots + M_{m-1}(x) * x^{8(m-1) - 1}$,
     # where each $M_i(x)$ is a polynomial representing a single byte, these polynomials are which we will process one by one.
     # Indeed. Let $R_0(x) = 0$, define $R_1(x) = R_0(x) * x^8 + M_0(x) * x^n$.
     # If $R_i(x) = R_{i-1}(x) * x^8 + M_{i-1}(x) * x^n$, then define $R_{i+1} = R_i(x) * x^8 + M_i(x) * x^n$.
@@ -17,10 +17,8 @@ def calc_crc(data: bytes | bytearray, generator: GF2x) -> int:
     # It follows that:
     # $R_0(x) + (G(x)) = 0$
     # $R_1(x) + (G(x)) = M_0(x) + (G(x))$
-    # $R_2(x) + (G(x)) = (M_0(x) * x^8 + M_1(x) * x^n) + (G(x))
-    # .
-    # .
-    # .
+    # $R_2(x) + (G(x)) = (M_0(x) * x^8 + M_1(x) * x^n) + (G(x))$
+    # $\vdots$
     # $R_{m} + (G(x)) = (M(x) * x^n) + (G(x))$.
 
     r = GF2x_MOD_f(generator, GF2x(Nat(0)))

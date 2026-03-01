@@ -2,9 +2,9 @@ from nat import Nat
 from typing import Final, override
 
 # Let $n$ be a nonnegative integer.
-# We can write $n$ uniquely in base $2$ as $a_0 + a_1 * 2 + ... + a_m * 2$,
-# where each $a_0, a_1, ..., a_m$ are either $0$ or $1$, and $a_m \neq 0$.
-# Now consider the map $a_0 + a_1 * 2 + ... + a_m * 2^m \mapsto a_0 + a_1 * x + ... + a_m * x^m$.
+# We can write $n$ uniquely in base $2$ as $a_0 + a_1 * 2 + \cdots + a_m * 2$,
+# where each $a_0, a_1, \ldots, a_m$ are either $0$ or $1$, and $a_m \neq 0$.
+# Now consider the map $a_0 + a_1 * 2 + \cdots + a_m * 2^m \mapsto a_0 + a_1 * x + \cdots + a_m * x^m$.
 # This map is a bijection between the set of nonnegative integers and polynomials with binary coefficients.
 # We can construct the ring $GF(2)[x]$ of polynomials with binary coefficients by associating the element with a nonnegative integer, a natural number, denoted $Nat$.
 # If $f(x)$ is an element of $GF(2)[x]$, then denote the nonnegative integer representation of $f(x)$ as $repr$.
@@ -39,9 +39,9 @@ class GF2x:
         return self + other
 
     def __mul__(self, other: GF2x, /) -> GF2x:
-        # Let $f(x) = a_0 + ... + a_m * x^m$,
-        # and let $g(x) = b_0 + ... + b_n * x^n$.
-        # We want to compute $h(x) = f(x)g(x) = (a_0 + ... + a_m * x^m$)(b_0 + ... + b_n * x^n)$.
+        # Let $f(x) = a_0 + \cdots + a_m * x^m$,
+        # and let $g(x) = b_0 + \cdots + b_n * x^n$.
+        # We want to compute $h(x) = f(x)g(x) = (a_0 + \cdots + a_m * x^m$)(b_0 + \cdots + b_n * x^n)$.
         # If the term $a_i * x^i$ is nonzero, then it is equal to $x^i$.
         # Every product $x^i * (b_j * x^j)$ is equal to either $x^{i + j}$ or $0$.
         # If the product is nonzero we can shift $x^i$ to the left $j$ times.
@@ -67,8 +67,8 @@ class GF2x:
         return h
 
     def __mod__(self, other: GF2x, /) -> GF2x:
-        # Let $f(x) = a_0 + ... + a_m * x^m$,
-        # and let $g(x) = b_0 + ... + b_n * x^n$.
+        # Let $f(x) = a_0 + \cdots + a_m * x^m$,
+        # and let $g(x) = b_0 + \cdots + b_n * x^n$.
         # Since $GF(2)[x]$ is an Euclidian domain we can always perform polynomial division as long as the dividend is nonzero.
         # Assume $g(x) \neq 0$, we can write $f(x) = q(x)g(x) + r(x)$ for unique $q(x), r(x)$ with $r(x) = 0$ or $deg r(x) < deg g(x)$.
         # We want to find $r(x)$.
@@ -178,7 +178,7 @@ class GF2x_MOD_f:
             return self.generator != other.generator or self.repr != other.repr
         return False
 
-# We can also construct all the elements of the quotient ring $GF(2)[x]/(f(x))$.
+# We can also construct all the elements of the quotient ring $(GF(2)[x])/(f(x))$.
 class GF2x_MOD_f_Set:
     def __init__(self, f: GF2x) -> None:
         self.generator:    Final[GF2x]               = f
@@ -191,8 +191,8 @@ class GF2x_MOD_f_Set:
         if self.generator == GF2x(Nat(0)):
             return frozenset({GF2x(Nat(0))})
 
-        # Since $f(x)$ is nonzero and $GF(2)$ is a field, then $GF(2)[x]/(f(x))$ is a free module of rank $d = deg f(x)$ as a $GF(2)$-module.
-        # That means every element can be represented as a $d$-tuple (a_0, ..., a_{d-1})$.
+        # Since $f(x)$ is nonzero and $GF(2)$ is a field, then $(GF(2)[x])/(f(x))$ is a free module of rank $d = deg f(x)$ as a $GF(2)$-module.
+        # That means every element can be represented as a $d$-tuple (a_0, \ldots, a_{d-1})$.
         s: set[GF2x] = set()
         max_ = sum(2 ** i for i in range(self.generator.degree))
         for i in range(max_ + 1):
