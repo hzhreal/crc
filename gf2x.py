@@ -51,7 +51,7 @@ class GF2x:
         f = self
         g = other
         h = GF2x(Nat(0))
-        # Any Euclidian domain is an integral domain.
+
         if f == GF2x(Nat(0)) or g == GF2x(Nat(0)):
             return h
 
