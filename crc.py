@@ -20,7 +20,7 @@ def calc_crc(data: bytes | bytearray, generator: GF2x) -> int:
     # $R_1(x) + (G(x)) = M_0(x) + (G(x))$
     # $R_2(x) + (G(x)) = (M_0(x) * x^8 + M_1(x) * x^n) + (G(x))$
     # $\vdots$
-    # $R_{m} + (G(x)) = (M(x) * x^n) + (G(x))$.
+    # $R_m(x) + (G(x)) = (M(x) * x^n) + (G(x))$.
 
     r = GF2x_MOD_f(generator, GF2x(Nat(0)))
 
@@ -36,13 +36,14 @@ def test() -> None:
 
     SAMPLE_SIZE = 256
     SAMPLES     = 100
-    GENERATOR = 0b100000100110000010001110110110111
+    GENERATOR   = 0b100000100110000010001110110110111
     for i in range(1, SAMPLES + 1, 1):
         print(f"{i}/{SAMPLES}")
 
-        data = rand(SAMPLE_SIZE)
+        data     = rand(SAMPLE_SIZE)
         internal = calc_crc(data, GF2x(Nat(GENERATOR)))
         external = anycrc.CRC(width=32, poly=GENERATOR, init=0, refin=False, refout=False, xorout=0).calc(data)
+
         assert internal == external
 
 if __name__ == "__main__":
