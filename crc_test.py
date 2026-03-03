@@ -35,7 +35,9 @@ def main(path: str) -> None:
 def parse_catalogue(path: str) -> tuple[Entry, ...]:
     entries: list[Entry] = []
     with open(path, "r") as catalogue:
+        i = 0
         while line := catalogue.readline(500):
+            assert i <= 1000
             line = line.removesuffix("\n")
             line = line.split(" ")
             e = Entry(
@@ -50,6 +52,7 @@ def parse_catalogue(path: str) -> tuple[Entry, ...]:
                 line[8].split("=")[1]
             )
             entries.append(e)
+            i += 1
     return tuple(entries)
 
 if __name__ == "__main__":
