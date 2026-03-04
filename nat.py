@@ -40,6 +40,10 @@ class Nat:
         return self.n != 0
 
     @override
+    def __repr__(self) -> str:
+        return str(self.n)
+
+    @override
     def __hash__(self) -> int:
         return hash(self.n)
 

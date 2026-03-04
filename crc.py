@@ -42,6 +42,7 @@ class CRC:
         ref_out: bool,
         xor_out: int,
         check: int | None = None,
+        residue: int | None = None,
         data: bytes | bytearray | None = None
     ) -> None:
         self.width:   Final[Nat]  = Nat(width)
@@ -60,6 +61,14 @@ class CRC:
             self.update(b"123456789")
             assert self.digest() == check
             self.reset()
+        if residue is not None:
+            reg = GF2x_MOD_f(self.poly, GF2x(self.xor_out))
+            if self.ref_out:
+                reg = GF2x_MOD_f(self.poly, GF2x(self._reflect(reg.repr.repr, self.width)))
+            reg = reg * GF2x_MOD_f(self.poly, GF2x.generate_monomial(self.width))
+            if self.ref_in:
+                reg = GF2x_MOD_f(self.poly, GF2x(self._reflect(reg.repr.repr, self.width)))
+            assert reg.repr.repr == residue
 
         if data is not None:
             self.update(data)

@@ -11,7 +11,7 @@ class Entry:
     refout  : bool
     xorout  : int
     check   : int
-    residue : int # ignored
+    residue : int
     name    : str
 
 def main(path: str) -> None:
@@ -27,7 +27,8 @@ def main(path: str) -> None:
             e.refin,
             e.refout,
             e.xorout,
-            e.check
+            e.check,
+            e.residue
         )
         print(f"[({i}/{cnt}) {e.name}] Passed!")
         print()
