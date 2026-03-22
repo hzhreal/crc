@@ -69,7 +69,8 @@ class GF2x:
     def __mod__(self, other: GF2x, /) -> GF2x:
         # Let $f(x) = a_0 + \cdots + a_m * x^m$,
         # and let $g(x) = b_0 + \cdots + b_n * x^n$.
-        # Since $GF(2)[x]$ is an Euclidian domain we can always perform polynomial division as long as the dividend is nonzero.
+        # Since $GF(2)$ is a field, the leading coefficient of every nonzero element in $GF(2)[x]$ is a unit.
+        # That is, we can always perform polynomial division in $GF(2)[x]$ as long as the divisor is nonzero.
         # Assume $g(x) \neq 0$, we can write $f(x) = q(x)g(x) + r(x)$ for unique $q(x), r(x)$ with $r(x) = 0$ or $deg r(x) < deg g(x)$.
         # We want to find $r(x)$.
         # If $deg f(x) < deg g(x)$, then $f(x) = 0 * g(x) + f(x)$.
